@@ -1,0 +1,1 @@
+1. Connect to a database and save all entries from the website to the database.
