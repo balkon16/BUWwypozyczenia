@@ -1,18 +1,62 @@
-"""
-I create a POST request that will be send to the form action URL.
-username and password parameters will be taken from credentials.py.
-The file is secret thus not ignored by git.
-"""
-import requests
+import selenium
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
 
 import credentials
+import scraping_script
 
-url = 'https://chamo.buw.uw.edu.pl:8443/auth/login'
-values = {'username': credentials.login,
-          'password': credentials.pwd}
+browser = webdriver.Firefox()
+browser.set_window_position(0,0)
+browser.set_window_size(960,1080)
 
-r = requests.post(url, data=values)
-if r.status_code == 200:
-    print("Logged in!")
-else:
-    print(r.content)
+browser.get('https://chamo.buw.uw.edu.pl/search/query?theme=system')
+
+print("### Finding the form elements ###")
+library_card_no = browser.find_element_by_id("h_username")
+passwd = browser.find_element_by_id("h_password")
+login_button = browser.find_element_by_name("login")
+
+print("### Clearing content from the form ###\n")
+library_card_no.clear() #clear any content
+passwd.clear() #clear any content
+
+print("### Entering form data ###\n")
+library_card_no.send_keys(credentials.login)
+passwd.send_keys(credentials.pwd)
+login_button.click()
+
+print("### Switching to History tab ###\n")
+tab_history = "#tabContents-6"
+history_button = browser.find_element_by_xpath('//a[@href="'+tab_history+'"]')
+history_button.click()
+
+print("### Start pagination ###\n")
+
+title_next = "Przejdź do następnej strony"
+
+while True:
+    next_button = browser.find_element_by_xpath('//*[@title=\"'+title_next+'\"]') #title attribute is the same for all pages
+    #print(next_button.get_attribute("href")) #this differ depending on the session
+
+    page = browser.page_source
+    print("No of the page: ", scraping_script.find_page_no(page))
+    #scraping_script.get_table_rows(page)
+
+    if not next_button.get_attribute("href"): #inactive button has title only
+        break
+    print("Next page!")
+    next_button.click()
+
+    ## function that scrapes the webpage
+        ## its logic here
+    ##
+
+
+print("### Sleeping for 5 seconds ###\n")
+time.sleep(5)
+
+print("### Logging out ###\n")
+url_logout = "../../auth/logout?theme=system"
+logout_button = browser.find_element_by_xpath('//a[@href="'+url_logout+'"]')
+logout_button.click()
