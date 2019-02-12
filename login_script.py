@@ -1,8 +1,13 @@
 # tutaj wstawić wykonywanie skryptu, który do ścieżki będzie dołączał bin virtual environment, a następnie ścieżkę do gecko executable
 
-# dopisać skrypt włączający środowisko venv_BUW
+# the following code starts the virtual environment
+import os
+import sys
 
-import selenium
+gecko_abs = os.path.abspath('./gecko/')
+os.environ['PATH'] = os.environ['PATH'] + ":" + gecko_abs
+
+import selenium 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
