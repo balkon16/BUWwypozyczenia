@@ -7,7 +7,7 @@ import sys
 gecko_abs = os.path.abspath('./gecko/')
 os.environ['PATH'] = os.environ['PATH'] + ":" + gecko_abs
 
-import selenium 
+import selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
@@ -60,6 +60,9 @@ while True:
     ## function that scrapes the webpage
         ## its logic here
     ##
+    scraping_script.get_table_rows(page)
+
+
 
 
 print("### Sleeping for 5 seconds ###\n")
