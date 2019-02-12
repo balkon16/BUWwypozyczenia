@@ -1,3 +1,7 @@
+# tutaj wstawić wykonywanie skryptu, który do ścieżki będzie dołączał bin virtual environment, a następnie ścieżkę do gecko executable
+
+# dopisać skrypt włączający środowisko venv_BUW
+
 import selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys

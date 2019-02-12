@@ -2,3 +2,4 @@ venv_BUW/
 credentials.py
 __pycache__/
 other/*
+*.log
