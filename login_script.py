@@ -4,6 +4,7 @@
 import os
 import sys
 
+# add gecko driver to path
 gecko_abs = os.path.abspath('./gecko/')
 os.environ['PATH'] = os.environ['PATH'] + ":" + gecko_abs
 
@@ -14,6 +15,7 @@ import time
 
 import credentials
 import scraping_script
+from database_handler import accept_row
 
 browser = webdriver.Firefox()
 browser.set_window_position(0,0)
@@ -50,20 +52,17 @@ while True:
 
     page = browser.page_source
     print("No of the page: ", scraping_script.find_page_no(page))
-    #scraping_script.get_table_rows(page)
+
+    rows_to_save = scraping_script.get_table_rows(page)
+    for row in rows_to_save:
+        print("The following row will be saved to db: ")
+        print(row)
+        accept_row(row)
 
     if not next_button.get_attribute("href"): #inactive button has title only
         break
     print("Next page!")
     next_button.click()
-
-    ## function that scrapes the webpage
-        ## its logic here
-    ##
-    scraping_script.get_table_rows(page)
-
-
-
 
 print("### Sleeping for 5 seconds ###\n")
 time.sleep(5)

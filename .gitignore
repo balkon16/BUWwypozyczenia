@@ -4,3 +4,5 @@ __pycache__/
 other/*
 *.log
 gecko/
+BUW_items.db
+gathered_data/BUW_items.db
